@@ -57,7 +57,7 @@ public class Dashboard2 extends koneksi{
         return rs;
     }
     
-    public ResultSet JumlahPengurus () {
+    public ResultSet JumlahPengajar () {
         query = "SELECT COUNT(*) AS jumlahP FROM ustadz;";
         
         try { 

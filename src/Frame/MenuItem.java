@@ -70,7 +70,10 @@ public class MenuItem extends javax.swing.JPanel {
             }
         });
 
+        lb_MenuName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lb_MenuName.setText("MenuItem");
+
+        lb_iconSub.setForeground(new java.awt.Color(255, 205, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -82,7 +85,7 @@ public class MenuItem extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lb_iconSub, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb_MenuName, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                .addComponent(lb_MenuName, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -107,13 +110,6 @@ public class MenuItem extends javax.swing.JPanel {
             act.actionPerformed(null);
         }
     }//GEN-LAST:event_formMousePressed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lb_MenuName;
-    private javax.swing.JLabel lb_icon;
-    private javax.swing.JLabel lb_iconSub;
-    // End of variables declaration//GEN-END:variables
 
     private void hideMenu() {
         new Thread(new Runnable() {
@@ -152,4 +148,13 @@ public class MenuItem extends javax.swing.JPanel {
         } catch (Exception e) {
         }
     }
+
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lb_MenuName;
+    private javax.swing.JLabel lb_icon;
+    private javax.swing.JLabel lb_iconSub;
+    // End of variables declaration//GEN-END:variables
 }
+    

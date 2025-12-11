@@ -13,10 +13,10 @@ import java.sql.SQLException;
  * @author cherly
  */
 public class koneksi {
-     private Connection mysqlconfig;
+    private Connection mysqlconfig;
     public Connection configDB(){
         try {
-            String url = "jdbc:mysql://localhost:3306/manajemen_pesantren";
+            String url = "jdbc:mysql://localhost:3306/manajemen_pesantren2";
             String user = "root";
             String pass = "";
             mysqlconfig = DriverManager.getConnection(url, user, pass);

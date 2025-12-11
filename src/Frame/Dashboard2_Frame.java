@@ -35,15 +35,15 @@ public class Dashboard2_Frame extends javax.swing.JPanel {
         }
 
         // Ambil jumlah pengurus
-        ResultSet rsPengurus = Dsh2.JumlahPengurus();
-        int pengurus = 0;
-        if (rsPengurus.next()) {
-            pengurus = rsPengurus.getInt("jumlahP");
+        ResultSet rsPengajar = Dsh2.JumlahPengajar();
+        int pengajar = 0;
+        if (rsPengajar.next()) {
+            pengajar = rsPengajar.getInt("jumlahP");
         }
 
         // Tampilkan
         jmlSantri.setText(String.valueOf(santri));
-        jmlPengurus.setText(String.valueOf(pengurus));
+        jmlPengurus.setText(String.valueOf(pengajar));
 
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "EROR : " + e.getMessage());

@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+import com.formdev.flatlaf.FlatLightLaf;
 
 /**
  *
@@ -35,6 +37,8 @@ public class Dashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         pn_atas = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         pn_subMenu = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -43,30 +47,57 @@ public class Dashboard extends javax.swing.JFrame {
         pn_utama = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
 
-        pn_atas.setBackground(new java.awt.Color(0, 102, 102));
+        pn_atas.setBackground(new java.awt.Color(35, 64, 60));
         pn_atas.setForeground(new java.awt.Color(255, 255, 255));
         pn_atas.setMaximumSize(new java.awt.Dimension(767, 767));
         pn_atas.setPreferredSize(new java.awt.Dimension(150, 50));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Atass.png"))); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Book Antiqua", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 205, 0));
+        jLabel2.setText("SIMASTREN 2");
+
+        jLabel3.setFont(new java.awt.Font("Book Antiqua", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 205, 0));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Logo Pondok 3.png"))); // NOI18N
+
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("TUTUP");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pn_atasLayout = new javax.swing.GroupLayout(pn_atas);
         pn_atas.setLayout(pn_atasLayout);
         pn_atasLayout.setHorizontalGroup(
             pn_atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_atasLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1771, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pn_atasLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 343, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         pn_atasLayout.setVerticalGroup(
             pn_atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addGroup(pn_atasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pn_atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pn_atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         getContentPane().add(pn_atas, java.awt.BorderLayout.PAGE_START);
@@ -85,11 +116,13 @@ public class Dashboard extends javax.swing.JFrame {
         pn_subMenu.setLayout(pn_subMenuLayout);
         pn_subMenuLayout.setHorizontalGroup(
             pn_subMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+            .addGroup(pn_subMenuLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pn_subMenuLayout.setVerticalGroup(
             pn_subMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
         );
 
         getContentPane().add(pn_subMenu, java.awt.BorderLayout.LINE_START);
@@ -103,16 +136,16 @@ public class Dashboard extends javax.swing.JFrame {
         pn_content.setLayout(pn_contentLayout);
         pn_contentLayout.setHorizontalGroup(
             pn_contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_utama, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+            .addComponent(pn_utama, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
         );
         pn_contentLayout.setVerticalGroup(
             pn_contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_utama, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+            .addComponent(pn_utama, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
         );
 
         getContentPane().add(pn_content, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(727, 449));
+        setSize(new java.awt.Dimension(713, 528));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -122,6 +155,11 @@ public class Dashboard extends javax.swing.JFrame {
         pn_utama.repaint();     
         pn_utama.revalidate();
     }//GEN-LAST:event_formWindowOpened
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -133,20 +171,8 @@ public class Dashboard extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception e) {
         }
         //</editor-fold>
 
@@ -160,6 +186,8 @@ public class Dashboard extends javax.swing.JFrame {
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pn_atas;
     private javax.swing.JPanel pn_content;
@@ -168,11 +196,13 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel pn_utama;
     // End of variables declaration//GEN-END:variables
 
-    private void execute() {
+     private void execute() {
         ImageIcon iconDashboard     = new ImageIcon(getClass().getResource("/Image/iconDashboard.png"));
         ImageIcon iconAkademic      = new ImageIcon(getClass().getResource("/Image/iconAkademic.png"));
         ImageIcon iconKepengurusan  = new ImageIcon(getClass().getResource("/Image/iconKepengurusan.png"));
         ImageIcon iconSantri        = new ImageIcon(getClass().getResource("/Image/iconSantri.png"));
+        ImageIcon iconKelas         = new ImageIcon(getClass().getResource("/Image/iconSantri.png"));
+        ImageIcon iconKitab         = new ImageIcon(getClass().getResource("/Image/iconSantri.png"));
         ImageIcon iconPengurus      = new ImageIcon(getClass().getResource("/Image/iconPengurus.png"));  
         ImageIcon iconPengajar      = new ImageIcon(getClass().getResource("/Image/iconPengajar.png"));
         ImageIcon iconHome          = new ImageIcon(getClass().getResource("/Image/iconHome.png"));
@@ -196,6 +226,26 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         
+        MenuItem kelas = new MenuItem(null, true, iconKelas, "DATA KELAS", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pn_utama.removeAll();
+                pn_utama.repaint();
+                pn_utama.revalidate();
+                pn_utama.add(new KelasPanel());
+            }
+        });
+          
+        MenuItem kitab = new MenuItem(null, true, iconKitab, "DATA KITAB", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pn_utama.removeAll();
+                pn_utama.repaint();
+                pn_utama.revalidate();
+                pn_utama.add(new KitabPanel());
+            }
+        });
+        
         MenuItem pengurus  = new MenuItem(null, true, iconPengurus, "DATA PENGURUS", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -215,11 +265,11 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         
-        MenuItem menuDashboard     = new MenuItem(iconHome, false, null, "HOME", null, dashboard);
-        MenuItem menuAkademic      = new MenuItem(iconAkademic, false, null, "AKADEMIK PESANTREN", null, santri);
-        MenuItem menuKepengurusan  = new MenuItem(iconKepengurusan, false, null, "KEPENGURUSAN", null, pengurus, pengajar);
+        MenuItem menuHome         = new MenuItem(iconHome, false, null, "HOME", null, dashboard);
+        MenuItem menuAkademic     = new MenuItem(iconAkademic, false, null, "AKADEMIK PESANTREN", null, santri, kelas, kitab);
+        MenuItem menuKepengurusan = new MenuItem(iconKepengurusan, false, null, "KEPENGURUSAN", null, pengurus, pengajar);
         
-        addMenu(menuDashboard, menuAkademic, menuKepengurusan);
+        addMenu(menuHome, menuAkademic, menuKepengurusan);
     }
     private void addMenu(MenuItem... menu) {
         for (int i = 0; i < menu.length; i++) {
