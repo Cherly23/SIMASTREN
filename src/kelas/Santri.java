@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class Santri extends koneksi{
     private String nama_santri, tempat_lahir, alamat, jenis_kelamin, wali_santri, no_hp, tanggal_lahir, tanggal_masuk;
-    private int id_santri, Status;
+    private int id_santri, Status, kelas_id;
     private final Connection koneksi;
     private PreparedStatement ps;
     private Statement st;
@@ -108,6 +108,15 @@ public class Santri extends koneksi{
         this.Status = Status;
     }
     
+    public int getKelas_id() {
+        return kelas_id;
+    }
+
+    public void setKelas_id(int kelas_id) {
+        this.kelas_id = kelas_id;
+    }
+
+    
     public ResultSet JumlahPutra () {
     query = "SELECT COUNT(*) AS jumlahPutra FROM santri WHERE jenis_kelamin = 'Laki-Laki';";
     try {
@@ -147,39 +156,15 @@ public class Santri extends koneksi{
             ps.executeUpdate();
             ps.close();
             
-            JOptionPane.showMessageDialog(null, "Data Berhasil Ditambahkan");
         } catch (SQLException sQLException) {
             JOptionPane.showMessageDialog(null, "Data Gagal Ditambahkan, Eror : " + sQLException.getMessage());
     }
    
 }
-//    public void UbahSantri() {
-//        query = "UPDATE santri SET nama_santri=?, tempat_lahir=?, tanggal_lahir=?, alamat=?, jenis_kelamin=?, wali_santri=?, no_hp=?, tanggal_masuk=?, Status=? WHERE id_santri=?";
-//
-//    try {
-//            ps = koneksi.prepareStatement(query);
-//            ps.setString(1, NamaSantri);
-//            ps.setString(2, tempat_lahir);
-//            ps.setString(3, tanggal_lahir);
-//            ps.setString(4, alamat);
-//            ps.setString(5, jenis_kelamin);
-//            ps.setString(6, wali_santri);
-//            ps.setString(7, no_hp);
-//            ps.setString(8, tanggal_masuk);
-//            ps.setInt(9, Status);
-//            ps.setInt(10, id_santri);
-//            ps.executeUpdate();
-//            ps.close();
-//            
-//            JOptionPane.showMessageDialog(null, "Perubahan Berhasil DiSimpan");
-//        } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Perubahan Gagal DiSimpan");
-//    }
-//    }
-    
-    public void SimpanSantri() {
-      query = "INSERT INTO santri (nama_santri, tempat_lahir, tanggal_lahir, alamat, "
-                 + "jenis_kelamin, wali_santri, no_hp, tanggal_masuk, status) VALUES (?,?,?,?,?,?,?,?,?)";
+    public void UbahSantri() {
+        query = "UPDATE santri SET nama_santri=?, tempat_lahir=?, tanggal_lahir=?, alamat=?, jenis_kelamin=?, "
+                + "wali_santri=?, no_hp=?, tanggal_masuk=?, kelas_id = ?, Status=? WHERE id_santri=?";
+
     try {
             ps = koneksi.prepareStatement(query);
             ps.setString(1, nama_santri);
@@ -190,15 +175,39 @@ public class Santri extends koneksi{
             ps.setString(6, wali_santri);
             ps.setString(7, no_hp);
             ps.setString(8, tanggal_masuk);
-            ps.setInt(9, Status);
+            ps.setInt(9, kelas_id);
+            ps.setInt(10, Status);
+            ps.setInt(11, id_santri);
             ps.executeUpdate();
             ps.close();
             
-            JOptionPane.showMessageDialog(null, "Data Berhasil DiSimpan");
         } catch (SQLException sQLException) {
-            JOptionPane.showMessageDialog(null, "Data Gagal DiSimpan " + sQLException.getMessage());
+            JOptionPane.showMessageDialog(null, "Perubahan Gagal DiSimpan, Eror : " + sQLException.getMessage());
     }
     }
+    
+//    public void SimpanSantri() {
+//      query = "INSERT INTO santri (nama_santri, tempat_lahir, tanggal_lahir, alamat, "
+//                 + "jenis_kelamin, wali_santri, no_hp, tanggal_masuk, status) VALUES (?,?,?,?,?,?,?,?,?)";
+//    try {
+//            ps = koneksi.prepareStatement(query);
+//            ps.setString(1, nama_santri);
+//            ps.setString(2, tempat_lahir);
+//            ps.setString(3, tanggal_lahir);
+//            ps.setString(4, alamat);
+//            ps.setString(5, jenis_kelamin);
+//            ps.setString(6, wali_santri);
+//            ps.setString(7, no_hp);
+//            ps.setString(8, tanggal_masuk);
+//            ps.setInt(9, Status);
+//            ps.executeUpdate();
+//            ps.close();
+//            
+//            JOptionPane.showMessageDialog(null, "Data Berhasil DiSimpan");
+//        } catch (SQLException sQLException) {
+//            JOptionPane.showMessageDialog(null, "Data Gagal DiSimpan " + sQLException.getMessage());
+//    }
+//    }
     
     public void HapusSantri(){
         query = "DELETE FROM santri WHERE id_santri = ? ";
@@ -214,17 +223,22 @@ public class Santri extends koneksi{
         }
     }
     
-//    public void SimpanSantri() {
-//        // Jika id_santri = 0 artinya data baru
-//    if (id_santri == 0) {
-//        UbahSantri();
-//    } else {
-//        UbahSantri();
-//    }
-//    }
+    public void SimpanSantri() {
+        // Jika id_santri = 0 artinya data baru
+    if (id_santri == 0) {
+        TambahSantri();
+    } else {
+        UbahSantri();
+    }
+    }
     
     public ResultSet TampilSantri(){
-        query = "SELECT * FROM santri";
+       query = "SELECT s.id_santri, s.nama_santri, s.tempat_lahir, s.tanggal_lahir, "
+              + "s.alamat, s.jenis_kelamin, s.wali_santri, s.no_hp, s.tanggal_masuk, "
+              + "k.nama_kelas, s.status "
+              + "FROM santri s "
+              + "LEFT JOIN kelas k ON s.kelas_id = k.id_kelas";
+
         
         try {
             st = koneksi.createStatement();
@@ -236,28 +250,34 @@ public class Santri extends koneksi{
     }
     
     public ResultSet DetailSantri(int id) {
-        query = "SELECT * FROM santri WHERE id_santri= ?";
+         query = "SELECT s.*, k.nama_kelas " +
+                "FROM santri s " +
+                "LEFT JOIN kelas k ON s.kelas_id = k.id_kelas " +
+                "WHERE s.id_santri = ?";
         try {
             ps = koneksi.prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error DetailSantri: " + e.getMessage());
         }
         return rs;
     }
 
     public ResultSet cariSantri(String key) {
-    query = "SELECT * FROM santri WHERE "
-            + "nama_santri LIKE ? OR "
-            + "tempat_lahir LIKE ? OR "
-            + "tanggal_lahir LIKE ? OR "
-            + "alamat LIKE ? OR "
-            + "jenis_kelamin LIKE ? OR "
-            + "wali_santri LIKE ? OR "
-            + "no_hp LIKE ? OR "
-            + "tanggal_masuk LIKE ? OR "
-            + "status LIKE ?";
+     query = "SELECT s.*, k.nama_kelas " +
+            "FROM santri s " +
+            "LEFT JOIN kelas k ON s.kelas_id = k.id_kelas " +
+            "WHERE s.nama_santri LIKE ? " +
+            "OR s.tempat_lahir LIKE ? " +
+            "OR s.tanggal_lahir LIKE ? " +
+            "OR s.alamat LIKE ? " +
+            "OR s.jenis_kelamin LIKE ? " +
+            "OR s.wali_santri LIKE ? " +
+            "OR s.no_hp LIKE ? " +
+            "OR s.tanggal_masuk LIKE ? " +
+            "OR k.nama_kelas LIKE ? " +   // SEARCH NAMA KELAS
+            "OR s.status LIKE ?";
 
     try {
         ps = koneksi.prepareStatement(query);
@@ -271,7 +291,8 @@ public class Santri extends koneksi{
         ps.setString(6, key);  // wali santri
         ps.setString(7, key);  // no hp
         ps.setString(8, key);  // tanggal masuk
-        ps.setString(9, key);  // status
+        ps.setString(9, key);  // Kelas santri
+        ps.setString(10, key);  // status
 
         rs = ps.executeQuery();
 

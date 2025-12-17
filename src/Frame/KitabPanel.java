@@ -35,11 +35,12 @@ public class KitabPanel extends javax.swing.JPanel {
         btnSimpan = new javax.swing.JLabel();
         btnBatal = new javax.swing.JLabel();
         tNama = new javax.swing.JTextField();
-        tID = new javax.swing.JTextField();
+        tSearch = new javax.swing.JTextField();
         cPengajar = new javax.swing.JComboBox<>();
         cKelas = new javax.swing.JComboBox<>();
-        tID1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        tID = new javax.swing.JTextField();
+        btnBatal1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -66,8 +67,8 @@ public class KitabPanel extends javax.swing.JPanel {
         btnReset.setBackground(new java.awt.Color(218, 241, 222));
         btnReset.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnReset.setForeground(new java.awt.Color(218, 241, 222));
-        btnReset.setText(" Reset");
-        add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 470, 70, 40));
+        btnReset.setText("  Reset");
+        add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 470, 70, 30));
 
         jLabel7.setBackground(new java.awt.Color(218, 241, 222));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -78,14 +79,14 @@ public class KitabPanel extends javax.swing.JPanel {
         btnSimpan.setBackground(new java.awt.Color(218, 241, 222));
         btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSimpan.setForeground(new java.awt.Color(218, 241, 222));
-        btnSimpan.setText("Simpan");
-        add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 470, 70, 40));
+        btnSimpan.setText("Tambah");
+        add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 470, 70, 30));
 
         btnBatal.setBackground(new java.awt.Color(218, 241, 222));
         btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnBatal.setForeground(new java.awt.Color(218, 241, 222));
-        btnBatal.setText("Batal");
-        add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 475, 50, 30));
+        btnBatal.setText("  Ubah");
+        add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 70, 30));
 
         tNama.setBorder(null);
         tNama.setOpaque(true);
@@ -94,26 +95,32 @@ public class KitabPanel extends javax.swing.JPanel {
                 tNamaActionPerformed(evt);
             }
         });
-        add(tNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 360, 30));
+        add(tNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 350, 20));
 
-        tID.setBorder(null);
-        tID.setOpaque(true);
-        add(tID, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 50, 290, 30));
+        tSearch.setBorder(null);
+        tSearch.setOpaque(true);
+        add(tSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 50, 290, 30));
 
         cPengajar.setBorder(null);
         cPengajar.setOpaque(true);
-        add(cPengajar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, 360, 30));
+        add(cPengajar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, 370, 30));
 
         cKelas.setBorder(null);
         cKelas.setOpaque(true);
-        add(cKelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, 360, 30));
+        add(cKelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 370, 40));
 
-        tID1.setBorder(null);
-        tID1.setOpaque(true);
-        add(tID1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 360, 30));
+        tID.setBorder(null);
+        tID.setOpaque(true);
+        add(tID, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 350, 20));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Data_Kitab.png"))); // NOI18N
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        btnBatal1.setBackground(new java.awt.Color(218, 241, 222));
+        btnBatal1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnBatal1.setForeground(new java.awt.Color(218, 241, 222));
+        btnBatal1.setText(" Hapus");
+        add(btnBatal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, 70, 30));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Data Kitab.png"))); // NOI18N
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 710));
     }// </editor-fold>//GEN-END:initComponents
 
     private void tNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tNamaActionPerformed
@@ -123,18 +130,19 @@ public class KitabPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnBatal;
+    private javax.swing.JLabel btnBatal1;
     private javax.swing.JLabel btnReset;
     private javax.swing.JLabel btnSimpan;
     private javax.swing.JComboBox<String> cKelas;
     private javax.swing.JComboBox<String> cPengajar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField tID;
-    private javax.swing.JTextField tID1;
     private javax.swing.JTextField tNama;
+    private javax.swing.JTextField tSearch;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,6 +4,7 @@
  */
 package Frame;
 
+import kelas.DataKelas;
 import kelas.Santri;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +26,7 @@ public class SantriFrame extends javax.swing.JPanel {
         initComponents();
         JmlhSantri();
         load_table();
+        ComboBox();
         reset();
     }
     
@@ -37,7 +39,23 @@ public class SantriFrame extends javax.swing.JPanel {
         tWaliSantri.setText(null);
         tNo.setText(null);
         jTanggalMasuk.setCalendar(null);
+        cKelas.setSelectedItem(ABORT);
         cStatus.setSelectedItem(null);
+    }
+    
+    void ComboBox() {
+        try {
+            DataKelas value = new DataKelas();
+            ResultSet rs = value.dataComboBox();
+            
+            while (rs.next()) {
+                String data = rs.getString("nama_kelas");
+                cKelas.addItem(data);
+                
+            }
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, " EROR ComboBox : " + sQLException.getMessage());
+        }
     }
     
     private void JmlhSantri() {
@@ -63,7 +81,7 @@ public class SantriFrame extends javax.swing.JPanel {
         jmlSantriPutri.setText(String.valueOf(putri));
 
     } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "EROR : " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "EROR Jumlah Santri : " + e.getMessage());
     }
 }
     
@@ -78,11 +96,12 @@ public class SantriFrame extends javax.swing.JPanel {
     model.addColumn("Wali Santri");
     model.addColumn("No HP");
     model.addColumn("Tanggal Masuk");
+    model.addColumn("Kelas");
     model.addColumn("Status");
 
     try {
         Santri snr = new Santri();
-        ResultSet result = snr.cariSantri  (key);
+        ResultSet result = snr.cariSantri (key);
 
         while (result.next()) {
             String status = (result.getInt("status") == 1) ? "Mukim" : "Tidak Mukim";
@@ -96,13 +115,14 @@ public class SantriFrame extends javax.swing.JPanel {
                 result.getString("wali_santri"),
                 result.getString("no_hp"),
                 result.getString("tanggal_masuk"),
+                result.getString("nama_kelas"),
                 status
             });
         }
 
         tblSantri.setModel(model);
     } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error saat mencari: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error saat mencari : " + e.getMessage());
     }
 }
     
@@ -117,6 +137,7 @@ public class SantriFrame extends javax.swing.JPanel {
         model.addColumn("Wali Santri");
         model.addColumn("No HP");
         model.addColumn("Tanggal Masuk");
+        model.addColumn("Kelas");
         model.addColumn("Status");
         
         try {
@@ -134,12 +155,13 @@ public class SantriFrame extends javax.swing.JPanel {
                     result.getString("wali_santri"),
                     result.getString("no_hp"),
                     result.getString("tanggal_masuk"),
+                    result.getString("nama_kelas"),
                     status
                 });
             }
             tblSantri.setModel(model);
         } catch (SQLException sQLException) {
-            System.out.println("Eror : " + sQLException.getMessage());
+            System.out.println("Eror Tabel : " + sQLException.getMessage());
         }
     }
 
@@ -171,6 +193,7 @@ public class SantriFrame extends javax.swing.JPanel {
         tAlamat = new javax.swing.JTextField();
         tWaliSantri = new javax.swing.JTextField();
         tNo = new javax.swing.JTextField();
+        cKelas = new javax.swing.JComboBox<>();
         cStatus = new javax.swing.JComboBox<>();
         jrLaki = new javax.swing.JRadioButton();
         jrPerempuan = new javax.swing.JRadioButton();
@@ -268,7 +291,7 @@ public class SantriFrame extends javax.swing.JPanel {
 
         tNamaLengkap.setBorder(null);
         tNamaLengkap.setOpaque(true);
-        InputSantri.add(tNamaLengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 152, 360, 30));
+        InputSantri.add(tNamaLengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 240, 30));
 
         tTempatLahir.setBorder(null);
         tTempatLahir.setOpaque(true);
@@ -277,24 +300,28 @@ public class SantriFrame extends javax.swing.JPanel {
                 tTempatLahirActionPerformed(evt);
             }
         });
-        InputSantri.add(tTempatLahir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 238, 360, 20));
+        InputSantri.add(tTempatLahir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, 240, 30));
 
         tAlamat.setBorder(null);
         tAlamat.setOpaque(true);
-        InputSantri.add(tAlamat, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 400, 360, 20));
+        InputSantri.add(tAlamat, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 420, 240, 30));
 
         tWaliSantri.setBorder(null);
         tWaliSantri.setOpaque(true);
-        InputSantri.add(tWaliSantri, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 160, 360, 20));
+        InputSantri.add(tWaliSantri, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 170, 230, 30));
 
         tNo.setBorder(null);
         tNo.setOpaque(true);
-        InputSantri.add(tNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 240, 360, 20));
+        InputSantri.add(tNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 260, 230, 20));
+
+        cKelas.setBorder(null);
+        cKelas.setOpaque(true);
+        InputSantri.add(cKelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 170, 240, 30));
 
         cStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mukim", "Tidak Mukim" }));
         cStatus.setBorder(null);
         cStatus.setOpaque(true);
-        InputSantri.add(cStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 392, 370, 40));
+        InputSantri.add(cStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, 240, 30));
 
         buttonGroup1.add(jrLaki);
         jrLaki.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -304,20 +331,26 @@ public class SantriFrame extends javax.swing.JPanel {
                 jrLakiActionPerformed(evt);
             }
         });
-        InputSantri.add(jrLaki, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 120, 40));
+        InputSantri.add(jrLaki, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 260, 120, 40));
 
         buttonGroup1.add(jrPerempuan);
         jrPerempuan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jrPerempuan.setText("Perempuan");
-        InputSantri.add(jrPerempuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 470, 130, 40));
+        InputSantri.add(jrPerempuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 260, 130, 40));
 
+        tID.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        tID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tID.setText("   ");
+        tID.setBorder(null);
+        tID.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         tID.setEnabled(false);
-        InputSantri.add(tID, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 270, -1));
-        InputSantri.add(jTanggalMasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 320, 360, -1));
-        InputSantri.add(jTanggalLahir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, 360, -1));
+        tID.setOpaque(true);
+        InputSantri.add(tID, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 150, 40));
+        InputSantri.add(jTanggalMasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, 230, 30));
+        InputSantri.add(jTanggalLahir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 240, 40));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Santri Input (2).png"))); // NOI18N
-        InputSantri.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 950, 590));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Santri Input (1).png"))); // NOI18N
+        InputSantri.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 950, 570));
 
         btnBatal.setText("jButton1");
         btnBatal.addActionListener(new java.awt.event.ActionListener() {
@@ -325,7 +358,7 @@ public class SantriFrame extends javax.swing.JPanel {
                 btnBatalActionPerformed(evt);
             }
         });
-        InputSantri.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 470, 80, 30));
+        InputSantri.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 490, 80, 30));
 
         btnReset.setText("jButton2");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
@@ -333,7 +366,7 @@ public class SantriFrame extends javax.swing.JPanel {
                 btnResetActionPerformed(evt);
             }
         });
-        InputSantri.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 470, 90, 30));
+        InputSantri.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 490, 90, 30));
 
         btnSimpan.setText("jButton3");
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
@@ -341,7 +374,7 @@ public class SantriFrame extends javax.swing.JPanel {
                 btnSimpanActionPerformed(evt);
             }
         });
-        InputSantri.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 463, 80, 40));
+        InputSantri.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 490, 80, 30));
 
         mainPanelS.add(InputSantri, "card3");
 
@@ -369,18 +402,16 @@ public class SantriFrame extends javax.swing.JPanel {
         if (rs.next()) {
 
             // Isi form
-
+            tID.setText(rs.getString("id_santri"));
             tNamaLengkap.setText(rs.getString("nama_santri"));
             tTempatLahir.setText(rs.getString("tempat_lahir"));
 
             // tanggal lahir
-            java.util.Date tglLahir = new SimpleDateFormat("yyyy-MM-dd")
-                    .parse(rs.getString("tanggal_lahir"));
+            java.util.Date tglLahir = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("tanggal_lahir"));
             jTanggalLahir.setDate(tglLahir);
-
             tAlamat.setText(rs.getString("alamat"));
 
-            String gender = rs.getString("jenis_kelamin");
+            String gender = rs.getString("jenis_kelamin");           
             if (gender.equals("Laki-Laki")) jrLaki.setSelected(true);
             else jrPerempuan.setSelected(true);
 
@@ -388,15 +419,15 @@ public class SantriFrame extends javax.swing.JPanel {
             tNo.setText(rs.getString("no_hp"));
 
             // tanggal masuk
-            java.util.Date tglMasuk = new SimpleDateFormat("yyyy-MM-dd")
-                    .parse(rs.getString("tanggal_masuk"));
+            java.util.Date tglMasuk = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("tanggal_masuk"));
             jTanggalMasuk.setDate(tglMasuk);
-
+            
+            cKelas.setSelectedItem(rs.getString("nama_kelas"));
             cStatus.setSelectedItem(rs.getInt("status") == 1 ? "Mukim" : "Tidak Mukim");
         }
 
     } catch (SQLException | ParseException e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error btnUbah: " + e.getMessage());
     }
         // Pastikan InputSantriFrame punya constructor (int id)
         mainPanelS.removeAll();
@@ -417,6 +448,7 @@ public class SantriFrame extends javax.swing.JPanel {
         int baris = tblSantri.getSelectedRow();
         String idStr = tblSantri.getValueAt(baris, 0).toString();
         int id = Integer.parseInt(idStr);
+        
         str.setId_santri(id);
         str.HapusSantri();
         load_table();
@@ -440,39 +472,72 @@ public class SantriFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        Santri str = new Santri();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                       
+    Santri str = new Santri();
+    DataKelas kls = new DataKelas();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-            str.setNama_santri(tNamaLengkap.getText());
-            str.setTempat_lahir(tTempatLahir.getText());
-            str.setTanggal_lahir(sdf.format(jTanggalLahir.getDate()));
-            str.setAlamat(tAlamat.getText());
+    try {
+        str.setNama_santri(tNamaLengkap.getText());
+        str.setTempat_lahir(tTempatLahir.getText());
+        str.setTanggal_lahir(sdf.format(jTanggalLahir.getDate()));
+        str.setAlamat(tAlamat.getText());
 
-            // Ambil gender dari radio button
-            String gender = "";
-            if (jrLaki.isSelected()) {
-                gender = "Laki-Laki";
-            } else if (jrPerempuan.isSelected()) {
-                gender = "Perempuan";
-            }
-            str.setJenis_kelamin(gender);
-            str.setWali_santri(tWaliSantri.getText());
-            str.setNo_hp(tNo.getText());
-            str.setTanggal_masuk(sdf.format(jTanggalMasuk.getDate())); 
-            
-            if (cStatus.getSelectedItem().equals("Mukim")) {
+        // Gender
+        String gender = "";
+        if (jrLaki.isSelected()) {
+            gender = "Laki-Laki";
+        } else if (jrPerempuan.isSelected()) {
+            gender = "Perempuan";
+        }
+        str.setJenis_kelamin(gender);
+
+        str.setWali_santri(tWaliSantri.getText());
+        str.setNo_hp(tNo.getText());
+        str.setTanggal_masuk(sdf.format(jTanggalMasuk.getDate())); 
+
+        // ====== KONVERSI KELAS (FIX UTAMA) ======
+        kls.setNama_kelas(cKelas.getSelectedItem().toString());
+        ResultSet rs = kls.konversi();
+
+        if (rs != null && rs.next()) {
+            int id = rs.getInt("id_kelas"); 
+            str.setKelas_id(id);
+        } else {
+            JOptionPane.showMessageDialog(null, "Kelas tidak ditemukan!");
+            return;
+        }
+
+        // Status
+        if (cStatus.getSelectedItem().equals("Mukim")) {
             str.setStatus(1);
-            } else {
-                str.setStatus(0); 
-            } 
-            str.SimpanSantri();
-            load_table();
-            reset();
-        mainPanelS.removeAll();
-        mainPanelS.add(dataSantri);
-        mainPanelS.repaint();
-        mainPanelS.revalidate();
-            
+        } else {
+            str.setStatus(0); 
+        } 
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Erorrr : " + sQLException.getMessage());
+        } 
+        
+       // ================= INSERT / UPDATE =================
+        if (tID.getText().trim().isEmpty()) {
+            str.setId_santri(0);
+            str.TambahSantri();   // INSERT
+            JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
+        } else {
+            str.setId_santri(Integer.parseInt(tID.getText()));
+            str.UbahSantri();     // UPDATE
+            JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
+        }
+    
+    load_table();
+    reset();
+
+    mainPanelS.removeAll();
+    mainPanelS.add(dataSantri);
+    mainPanelS.repaint();
+    mainPanelS.revalidate();
+
+
 
     }//GEN-LAST:event_btnSimpanActionPerformed
 
@@ -482,7 +547,7 @@ public class SantriFrame extends javax.swing.JPanel {
         
         if (row != -1) {
 
-            String id = tblSantri.getValueAt(row, 0).toString();
+            String id        = tblSantri.getValueAt(row, 0).toString();
             String nama      = tblSantri.getValueAt(row, 1).toString();
             String tmptLahir = tblSantri.getValueAt(row, 2).toString();
             String tglLahir  = tblSantri.getValueAt(row, 3).toString();
@@ -491,26 +556,22 @@ public class SantriFrame extends javax.swing.JPanel {
             String wali      = tblSantri.getValueAt(row, 6).toString();
             String NoHp      = tblSantri.getValueAt(row, 7).toString();
             String tglMasuk  = tblSantri.getValueAt(row, 8).toString();
-            String status    = tblSantri.getValueAt(row, 9).toString();
+            String kelas     = tblSantri.getValueAt(row, 9).toString();
+            String status    = tblSantri.getValueAt(row, 10).toString();
+
             
 
             tID.setText(id);
             tNamaLengkap.setText(nama);
             tTempatLahir.setText(tmptLahir);
-            
-            // Set tanggal
             jTanggalLahir.setDate(java.sql.Date.valueOf(tglLahir));
             jTanggalMasuk.setDate(java.sql.Date.valueOf(tglMasuk));
-            
-            tAlamat.setText(alamat);
-            
-            if (gender.equals("Laki-Laki")) {
-                jrLaki.setSelected(true);
-            } else if (gender.equals("Perempuan")) {
-                jrPerempuan.setSelected(true);
-            }
+            tAlamat.setText(alamat);            
+            jrLaki.setSelected(gender.equals("Laki-Laki"));
+            jrPerempuan.setSelected(gender.equals("Perempuan"));
             tWaliSantri.setText(wali);
             tNo.setText(NoHp);
+            cKelas.setSelectedItem(kelas);
             cStatus.setSelectedItem(status);
         }
     }//GEN-LAST:event_tblSantriMouseClicked
@@ -541,6 +602,7 @@ public class SantriFrame extends javax.swing.JPanel {
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUbah;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cKelas;
     private javax.swing.JComboBox<String> cStatus;
     private javax.swing.JPanel dataSantri;
     private javax.swing.JLabel jLabel1;

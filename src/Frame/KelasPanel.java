@@ -4,6 +4,13 @@
  */
 package Frame;
 
+import kelas.DataKelas;
+import kelas.DataKitab;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author cherly
@@ -15,7 +22,76 @@ public class KelasPanel extends javax.swing.JPanel {
      */
     public KelasPanel() {
         initComponents();
+        load_table();
+        reset();
     }
+    
+    void reset() {
+        tID.setText(null);
+        tNama.setText(null);
+        cWaliKelas.setSelectedItem(null);
+    }
+    
+     private void pencarian(String key) {
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("ID Kelas");
+    model.addColumn("Nama Kelas");
+    model.addColumn("Wali Kelas");
+
+    try {
+        DataKelas kls = new DataKelas();
+        ResultSet result = kls.cariKelas(key);
+
+        while (result.next()) {
+            model.addRow(new Object[]{
+                result.getInt("id_kelas"),
+                result.getString("nama_kelas"),
+                result.getString("wali_ustadz_id"),
+            });
+        }
+
+        tblKelas.setModel(model);
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error saat mencari: " + e.getMessage());
+    }
+}
+     
+     void load_table() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Kelas");
+        model.addColumn("Nama Kelas");
+        model.addColumn("Wali Kelas");
+        
+        try {
+            DataKelas kls = new DataKelas();
+            ResultSet result = kls.TampilSantri();
+            while (result.next()){
+                model.addRow(new Object[]{
+                result.getInt("id_kelas"),
+                result.getString("nama_kelas"),
+                result.getString("wali_ustadz_id"),
+                });
+            }
+            tblKelas.setModel(model);
+        } catch (SQLException sQLException) {
+            System.out.println("Eror : " + sQLException.getMessage());
+        }
+    }
+     
+//     void ComboBox() {
+//        try {
+//            Category value = new Category();
+//            ResultSet rs = value.dataComboBox();
+//            
+//            while (rs.next()) {
+//                String data = rs.getString("categoryName");
+//                cbCategory.addItem(data);
+//                
+//            }
+//        } catch (SQLException sQLException) {
+//            JOptionPane.showMessageDialog(null, " EROR : " + sQLException.getMessage());
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,15 +107,16 @@ public class KelasPanel extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         tNama = new javax.swing.JTextField();
-        tID3 = new javax.swing.JTextField();
+        tSearch = new javax.swing.JTextField();
         tID = new javax.swing.JTextField();
-        btnBatal = new javax.swing.JLabel();
+        btnUbah = new javax.swing.JLabel();
         btnReset = new javax.swing.JLabel();
-        btnSimpan = new javax.swing.JLabel();
+        btnTambah = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblKelas = new javax.swing.JTable();
         cWaliKelas = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
+        btnHapus = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -68,35 +145,60 @@ public class KelasPanel extends javax.swing.JPanel {
 
         tNama.setBorder(null);
         tNama.setOpaque(true);
-        add(tNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, 360, 30));
+        add(tNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 350, 20));
 
-        tID3.setBorder(null);
-        tID3.setOpaque(true);
-        add(tID3, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 50, 290, 30));
+        tSearch.setBorder(null);
+        tSearch.setOpaque(true);
+        tSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tSearchMouseClicked(evt);
+            }
+        });
+        tSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tSearchKeyTyped(evt);
+            }
+        });
+        add(tSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 50, 290, 30));
 
         tID.setBorder(null);
         tID.setOpaque(true);
-        add(tID, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 360, 30));
+        add(tID, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, 350, 20));
 
-        btnBatal.setBackground(new java.awt.Color(218, 241, 222));
-        btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnBatal.setForeground(new java.awt.Color(218, 241, 222));
-        btnBatal.setText("  Batal");
-        add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 410, 60, 40));
+        btnUbah.setBackground(new java.awt.Color(218, 241, 222));
+        btnUbah.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnUbah.setForeground(new java.awt.Color(218, 241, 222));
+        btnUbah.setText("  Ubah");
+        btnUbah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUbahMouseClicked(evt);
+            }
+        });
+        add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, 70, 40));
 
         btnReset.setBackground(new java.awt.Color(218, 241, 222));
         btnReset.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnReset.setForeground(new java.awt.Color(218, 241, 222));
         btnReset.setText("  Reset");
-        add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, 70, 40));
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnResetMouseClicked(evt);
+            }
+        });
+        add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 420, 70, 40));
 
-        btnSimpan.setBackground(new java.awt.Color(218, 241, 222));
-        btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnSimpan.setForeground(new java.awt.Color(218, 241, 222));
-        btnSimpan.setText("  Simpan");
-        add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 410, 80, 40));
+        btnTambah.setBackground(new java.awt.Color(218, 241, 222));
+        btnTambah.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnTambah.setForeground(new java.awt.Color(218, 241, 222));
+        btnTambah.setText("  Tambah");
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahMouseClicked(evt);
+            }
+        });
+        add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 420, 90, 40));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblKelas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -107,34 +209,131 @@ public class KelasPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblKelas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKelasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblKelas);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 120, 490, 550));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 120, 480, 500));
 
         cWaliKelas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cWaliKelas.setBorder(null);
         cWaliKelas.setOpaque(true);
-        add(cWaliKelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 352, 370, 30));
+        add(cWaliKelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 370, 40));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Data_Kelas.png"))); // NOI18N
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        btnHapus.setBackground(new java.awt.Color(218, 241, 222));
+        btnHapus.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnHapus.setForeground(new java.awt.Color(218, 241, 222));
+        btnHapus.setText(" Hapus");
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
+        add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 420, 70, 40));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Data Kelas.png"))); // NOI18N
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1060, 720));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnUbahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbahMouseClicked
+        // TODO add your handling code here:
+        DataKelas kls = new DataKelas();
+//        DataKitab ktb = new DataKitab();
+
+            kls.setId_kelas(Integer.parseInt(tID.getText()));
+            kls.setNama_kelas(tNama.getText());
+
+//            ktb.setWali_Kelas(cWaliKelas.getSelectedItem().toString());
+//            ResultSet rs = ktb.konversi();
+        
+//        if (rs.next()) {
+//            int id = rs.getInt("categoryId");
+//            prd.setProductCategory(id);
+//        } 
+        kls.UbahKelas();
+        load_table();
+        reset();
+    }//GEN-LAST:event_btnUbahMouseClicked
+
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
+        // TODO add your handling code here:
+       DataKelas kls = new DataKelas();
+//        DataKitab ktb = new DataKitab();
+
+            kls.setId_kelas(Integer.parseInt(tID.getText()));
+            kls.setNama_kelas(tNama.getText());
+
+//            ktb.setWali_Kelas(cWaliKelas.getSelectedItem().toString());
+//            ResultSet rs = ktb.konversi();
+        
+//        if (rs.next()) {
+//            int id = rs.getInt("categoryId");
+//            prd.setProductCategory(id);
+//        } 
+        kls.TambahKelas();
+        load_table();
+        reset();
+    }//GEN-LAST:event_btnTambahMouseClicked
+
+    private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
+        // TODO add your handling code here:
+        reset();
+    }//GEN-LAST:event_btnResetMouseClicked
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+        // TODO add your handling code here:
+        DataKelas kls = new DataKelas();
+        kls.setId_kelas(Integer.parseInt(tID.getText()));
+        
+        kls.HapusKelas();
+        load_table();
+        reset();
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void tSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tSearchMouseClicked
+        // TODO add your handling code here:
+        tSearch.setText("");
+    }//GEN-LAST:event_tSearchMouseClicked
+
+    private void tSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tSearchKeyTyped
+        // TODO add your handling code here:
+        String key = tSearch.getText();
+        pencarian(key);
+    }//GEN-LAST:event_tSearchKeyTyped
+
+    private void tblKelasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKelasMouseClicked
+        // TODO add your handling code here:
+        int row = tblKelas.getSelectedRow();
+        
+        if (row != -1) {
+            String id = tblKelas.getValueAt(row, 0).toString();
+            String name = tblKelas.getValueAt(row, 1).toString();
+//            String category = tblKelas.getValueAt(row, 2).toString();
+
+            tID.setText(id);
+            tNama.setText(name);
+//            cWaliKelas.setSelectedItem(DataKitab);
+    }//GEN-LAST:event_tblKelasMouseClicked
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnBatal;
+    private javax.swing.JLabel btnHapus;
     private javax.swing.JLabel btnReset;
-    private javax.swing.JLabel btnSimpan;
+    private javax.swing.JLabel btnTambah;
+    private javax.swing.JLabel btnUbah;
     private javax.swing.JComboBox<String> cWaliKelas;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField tID;
-    private javax.swing.JTextField tID3;
     private javax.swing.JTextField tNama;
+    private javax.swing.JTextField tSearch;
+    private javax.swing.JTable tblKelas;
     // End of variables declaration//GEN-END:variables
 }

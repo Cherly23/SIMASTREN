@@ -52,8 +52,8 @@ public class DataKelas extends koneksi{
         this.id_kelas = id_kelas;
     }
     
-    public void SimpanKelas() {
-        query = "INSERT INTO kelas (nama_kelas, wali_kelas_id) VALUES (?,?)";
+    public void TambahKelas() {
+        query = "INSERT INTO kelas (nama_kelas, wali_ustadz_id) VALUES (?,?)";
 
     try {
             ps = koneksi.prepareStatement(query);
@@ -66,6 +66,94 @@ public class DataKelas extends koneksi{
         } catch (SQLException sQLException) {
             JOptionPane.showMessageDialog(null, "Data Gagal Ditambahkan, Eror : " + sQLException.getMessage());
     }
-   
 }
+    
+    public void UbahKelas() {
+        query = "UPDATE kelas SET nama_kelas=?, wali_ustadz_id=? WHERE id_kelas=?" ;
+
+    try {
+            ps = koneksi.prepareStatement(query);
+            ps.setString(1, nama_kelas);
+            ps.setString(2, wali_ustadz);
+            ps.setInt(3, id_kelas);
+            ps.executeUpdate();
+            ps.close();
+            
+            JOptionPane.showMessageDialog(null, "Data Berhasil Ditambahkan");
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data Gagal Ditambahkan, Eror : " + sQLException.getMessage());
+    }
+}
+    
+        public ResultSet cariKelas(String key) {
+    query = "SELECT * FROM kelas WHERE "
+            + "nama_kelas LIKE ? OR "
+            + "wali_ustadz_id LIKE ? ";
+
+    try {
+        ps = koneksi.prepareStatement(query);
+        key = "%" + key + "%";
+
+        ps.setString(1, key);  // nama
+        ps.setString(2, key);  // wali
+
+        rs = ps.executeQuery();
+
+    } catch (SQLException sQLException) {
+        JOptionPane.showMessageDialog(null, "Gagal mencari data santri: " + sQLException.getMessage());
+    }
+
+    return rs;
+}
+    
+    public void HapusKelas(){
+        query = "DELETE FROM kelas WHERE id_kelas = ? ";
+        
+        try {
+            ps = koneksi.prepareStatement(query);
+            ps.setInt(1, id_kelas);
+            ps.executeUpdate();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Data Berhasil DiHapus");
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data Gagal DiHapus, Eror : " + sQLException.getMessage());
+        }
+    }
+    
+    public ResultSet TampilSantri(){
+        query = "SELECT * FROM kelas";
+        
+        try {
+            st = koneksi.createStatement();
+            rs = st.executeQuery(query);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data Gagal Ditampilkan");
+        }
+        return rs;
+    }
+        
+      public ResultSet dataComboBox() {
+        try {
+            query = "SELECT nama_kelas FROM kelas";
+            
+            st = koneksi.createStatement();
+            rs = st.executeQuery(query);
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Eror : " + sQLException.getMessage());
+        }
+        return rs;
+    }
+    
+    public ResultSet konversi() {
+        try {
+            query = "SELECT id_kelas FROM kelas WHERE nama_kelas = ?";
+            
+            ps = koneksi.prepareStatement(query);
+            ps.setString(1, this.nama_kelas);
+            rs = ps.executeQuery();
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Eror : " + sQLException.getMessage());
+        }
+        return rs;  
+    }  
 }
