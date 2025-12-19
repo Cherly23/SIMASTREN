@@ -4,6 +4,13 @@
  */
 package Frame;
 
+import kelas.Pengurus;
+import kelas.Pengajar;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author cherly
@@ -15,6 +22,98 @@ public class PengurusFrame extends javax.swing.JPanel {
      */
     public PengurusFrame() {
         initComponents();
+        load_table();
+        ComboBox();
+        autoId();
+        reset();    
+    }
+
+    void autoId() {
+        try {
+            Pengurus pgr = new Pengurus();
+            ResultSet rs = pgr.autoId();
+            
+            if (rs.next()) {
+                int id = rs.getInt("ID") + 1;
+                tID.setText(String.valueOf(id));
+            }else {
+                tID.setText("1");
+            }
+        } catch (SQLException sQLException) {
+             JOptionPane.showMessageDialog(null, "EROR :" + sQLException.getMessage());
+        }
+    }
+    
+    void reset(){
+        tID.setText(null);
+        tJabatan.setText(null);
+        cNama.setSelectedItem(null);
+        buttonGroup1.clearSelection();
+    }
+    
+    void ComboBox() {
+        try {
+            Pengajar value = new Pengajar();
+            ResultSet rs = value.dataComboBox();
+            
+            while (rs.next()) {
+                String data = rs.getString("nama_ustadz");
+                cNama.addItem(data);
+                
+            }
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, " EROR ComboBox : " + sQLException.getMessage());
+        }
+    }
+    
+    void load_table() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Pengurus");
+        model.addColumn("Nama");
+        model.addColumn("Jabatan");
+        model.addColumn("Gender");
+        
+        try {
+            Pengurus pgr = new Pengurus();
+            ResultSet result = pgr.TampilPengurus();
+            while (result.next()){
+                model.addRow(new Object[]{
+                    result.getInt("id_pengurus"),
+                    result.getString("nama_ustadz"),
+                    result.getString("jabatan"),
+                    result.getString("jenis_kelamin"),
+                });
+            }
+            tblPengurus.setModel(model);
+        } catch (SQLException sQLException) {
+            System.out.println("Eror Tabel : " + sQLException.getMessage());
+        }
+    }
+    
+    private void pencarian(String key) {
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("ID Pengurus");
+    model.addColumn("Nama");
+    model.addColumn("Jabatan");
+    model.addColumn("Gender");
+
+
+    try {
+        Pengurus pgr = new Pengurus();
+        ResultSet result = pgr.cariPengurus(key);
+
+        while (result.next()) {
+            model.addRow(new Object[]{
+                result.getInt("id_pengurus"),
+                result.getString("nama_ustadz"),
+                result.getString("jenis_kelamin"),
+            });
+        }
+
+        tblPengurus.setModel(model);
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error saat mencari : " + e.getMessage());
+    }
     }
 
     /**
@@ -26,24 +125,253 @@ public class PengurusFrame extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        rLK = new javax.swing.JRadioButton();
+        rPr = new javax.swing.JRadioButton();
+        btnHapus = new javax.swing.JLabel();
+        btnReset = new javax.swing.JLabel();
+        btnTambah = new javax.swing.JLabel();
+        btnUbah = new javax.swing.JLabel();
+        tJabatan = new javax.swing.JTextField();
+        cNama = new javax.swing.JComboBox<>();
+        tID = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblPengurus = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Data Pengurus Mentahan (2).png"))); // NOI18N
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(11, 43, 38));
+        jLabel6.setText("DASHBOARD");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 300, 50));
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(11, 43, 38));
+        jLabel7.setText("  Nama Lengkap");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 130, 30));
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(11, 43, 38));
+        jLabel8.setText("  Jenis Kelamin");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 390, 130, 30));
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(11, 43, 38));
+        jLabel9.setText("  ID Pengurus");
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 130, 30));
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(11, 43, 38));
+        jLabel10.setText("  Jabatan");
+        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 130, 30));
+
+        buttonGroup1.add(rLK);
+        rLK.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        rLK.setText("Laki - Laki");
+        rLK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rLKActionPerformed(evt);
+            }
+        });
+        add(rLK, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 430, -1, -1));
+
+        buttonGroup1.add(rPr);
+        rPr.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        rPr.setText("Perempuan");
+        add(rPr, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 430, -1, -1));
+
+        btnHapus.setBackground(new java.awt.Color(218, 241, 222));
+        btnHapus.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnHapus.setForeground(new java.awt.Color(218, 241, 222));
+        btnHapus.setText("  Hapus");
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
+        add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 500, 70, 30));
+
+        btnReset.setBackground(new java.awt.Color(218, 241, 222));
+        btnReset.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnReset.setForeground(new java.awt.Color(218, 241, 222));
+        btnReset.setText("   Reset");
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnResetMouseClicked(evt);
+            }
+        });
+        add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 500, 70, 30));
+
+        btnTambah.setBackground(new java.awt.Color(218, 241, 222));
+        btnTambah.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnTambah.setForeground(new java.awt.Color(218, 241, 222));
+        btnTambah.setText(" Tambah");
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahMouseClicked(evt);
+            }
+        });
+        add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 500, 80, 30));
+
+        btnUbah.setBackground(new java.awt.Color(218, 241, 222));
+        btnUbah.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnUbah.setForeground(new java.awt.Color(218, 241, 222));
+        btnUbah.setText("   Ubah");
+        btnUbah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUbahMouseClicked(evt);
+            }
+        });
+        add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 500, 70, 30));
+
+        tJabatan.setText("jTextField1");
+        tJabatan.setBorder(null);
+        add(tJabatan, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 270, 30));
+
+        cNama.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        cNama.setBorder(null);
+        cNama.setFocusTraversalPolicyProvider(true);
+        cNama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cNamaActionPerformed(evt);
+            }
+        });
+        add(cNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 270, -1));
+
+        tID.setText("jTextField1");
+        tID.setBorder(null);
+        add(tID, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 270, 30));
+
+        tblPengurus.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblPengurus);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 540, -1));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Data Pengurus Mentahan (3).png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void rLKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rLKActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rLKActionPerformed
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+        // TODO add your handling code here:
+//        DataKelas kls = new DataKelas();
+//        //        DataKitab ktb = new DataKitab();
+//
+//        kls.setId_kelas(Integer.parseInt(tID.getText()));
+//        kls.setNama_kelas(tNama.getText());
+//
+//        //            ktb.setWali_Kelas(cWaliKelas.getSelectedItem().toString());
+//        //            ResultSet rs = ktb.konversi();
+//
+//        //        if (rs.next()) {
+//            //            int id = rs.getInt("categoryId");
+//            //            prd.setProductCategory(id);
+//            //        }
+//        kls.UbahKelas();
+//        load_table();
+//        reset();
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResetMouseClicked
+
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
+        // TODO add your handling code here:
+        Pengurus pgr = new Pengurus();
+        Pengajar pjr = new Pengajar();
+        
+        try {
+//            pgr.setId_pengurus(Integer.parseInt(tID.getText()));
+            pgr.setJabatan(tJabatan.getText()); 
+            
+            pjr.setNama_ustadz(cNama.getSelectedItem().toString());
+            ResultSet rs = pjr.konversi();
+        
+        if (rs.next()) {
+            int id = rs.getInt("id_ustadz");
+            pgr.setId_ustadz(id);
+        } 
+         pgr.TambahPengurus();
+
+        } catch(SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Eror : " + sQLException.getMessage());
+        }
+        
+        load_table();
+        reset();
+        
+
+    }//GEN-LAST:event_btnTambahMouseClicked
+
+    private void btnUbahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbahMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUbahMouseClicked
+
+    private void cNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cNamaActionPerformed
+        // TODO add your handling code here:
+        if (cNama.getSelectedItem() == null) {
+            buttonGroup1.clearSelection(); // reset radio
+            return;
+        }
+        try {
+        Pengurus pgr = new Pengurus();
+        String nama = cNama.getSelectedItem().toString();
+        ResultSet rs = pgr.NamaUstadz(nama);
+
+         if (rs.next()) {
+            String jk = rs.getString("jenis_kelamin");
+
+            if (jk.equalsIgnoreCase("Laki-laki")) {
+                rLK.setSelected(true);
+            } else if (jk.equalsIgnoreCase("Perempuan")) {
+                rPr.setSelected(true);
+            }
+        }
+
+    } catch (SQLException sQLException) {
+        JOptionPane.showMessageDialog(null, "Eror : " + sQLException.getMessage());
+    }
+    }//GEN-LAST:event_cNamaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnHapus;
+    private javax.swing.JLabel btnReset;
+    private javax.swing.JLabel btnTambah;
+    private javax.swing.JLabel btnUbah;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cNama;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton rLK;
+    private javax.swing.JRadioButton rPr;
+    private javax.swing.JTextField tID;
+    private javax.swing.JTextField tJabatan;
+    private javax.swing.JTable tblPengurus;
     // End of variables declaration//GEN-END:variables
 }

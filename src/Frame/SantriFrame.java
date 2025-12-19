@@ -39,7 +39,7 @@ public class SantriFrame extends javax.swing.JPanel {
         tWaliSantri.setText(null);
         tNo.setText(null);
         jTanggalMasuk.setCalendar(null);
-        cKelas.setSelectedItem(ABORT);
+        cKelas.setSelectedItem(null);
         cStatus.setSelectedItem(null);
     }
     
@@ -291,7 +291,7 @@ public class SantriFrame extends javax.swing.JPanel {
 
         tNamaLengkap.setBorder(null);
         tNamaLengkap.setOpaque(true);
-        InputSantri.add(tNamaLengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 240, 30));
+        InputSantri.add(tNamaLengkap, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 240, 30));
 
         tTempatLahir.setBorder(null);
         tTempatLahir.setOpaque(true);
@@ -300,28 +300,33 @@ public class SantriFrame extends javax.swing.JPanel {
                 tTempatLahirActionPerformed(evt);
             }
         });
-        InputSantri.add(tTempatLahir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, 240, 30));
+        InputSantri.add(tTempatLahir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 240, 30));
 
         tAlamat.setBorder(null);
         tAlamat.setOpaque(true);
-        InputSantri.add(tAlamat, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 420, 240, 30));
+        InputSantri.add(tAlamat, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, 240, 30));
 
         tWaliSantri.setBorder(null);
         tWaliSantri.setOpaque(true);
-        InputSantri.add(tWaliSantri, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 170, 230, 30));
+        InputSantri.add(tWaliSantri, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 230, 30));
 
         tNo.setBorder(null);
         tNo.setOpaque(true);
-        InputSantri.add(tNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 260, 230, 20));
+        InputSantri.add(tNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, 230, 20));
 
         cKelas.setBorder(null);
         cKelas.setOpaque(true);
-        InputSantri.add(cKelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 170, 240, 30));
+        cKelas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cKelasActionPerformed(evt);
+            }
+        });
+        InputSantri.add(cKelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 190, 240, 30));
 
         cStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mukim", "Tidak Mukim" }));
         cStatus.setBorder(null);
         cStatus.setOpaque(true);
-        InputSantri.add(cStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, 240, 30));
+        InputSantri.add(cStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 430, 240, 30));
 
         buttonGroup1.add(jrLaki);
         jrLaki.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -345,12 +350,12 @@ public class SantriFrame extends javax.swing.JPanel {
         tID.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         tID.setEnabled(false);
         tID.setOpaque(true);
-        InputSantri.add(tID, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 150, 40));
-        InputSantri.add(jTanggalMasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, 230, 30));
-        InputSantri.add(jTanggalLahir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 240, 40));
+        InputSantri.add(tID, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 150, 40));
+        InputSantri.add(jTanggalMasuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 350, 230, 30));
+        InputSantri.add(jTanggalLahir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, 240, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Santri Input (1).png"))); // NOI18N
-        InputSantri.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 950, 570));
+        InputSantri.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 950, -1));
 
         btnBatal.setText("jButton1");
         btnBatal.addActionListener(new java.awt.event.ActionListener() {
@@ -591,6 +596,10 @@ public class SantriFrame extends javax.swing.JPanel {
         String key = tSearch.getText();
         pencarian(key);
     }//GEN-LAST:event_tSearchKeyTyped
+
+    private void cKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cKelasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cKelasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

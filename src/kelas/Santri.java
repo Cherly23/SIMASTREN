@@ -1,4 +1,4 @@
-/*
+  /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -238,7 +238,6 @@ public class Santri extends koneksi{
               + "k.nama_kelas, s.status "
               + "FROM santri s "
               + "LEFT JOIN kelas k ON s.kelas_id = k.id_kelas";
-
         
         try {
             st = koneksi.createStatement();

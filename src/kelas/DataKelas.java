@@ -132,7 +132,7 @@ public class DataKelas extends koneksi{
         return rs;
     }
         
-      public ResultSet dataComboBox() {
+    public ResultSet dataComboBox() {
         try {
             query = "SELECT nama_kelas FROM kelas";
             
